@@ -45,7 +45,7 @@ header{background:rgba(15, 23, 42, 0.8);color:#fff;padding:30px 15px;text-align:
 .stars{color:#f59e0b;font-weight:bold;font-size:1.1rem}
 .admin-box{background:rgba(255, 251, 235, 0.95);border:2px dashed #d4af37;padding:20px;border-radius:10px;margin-bottom:25px;color:#1f2937}
 .button-group{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
-.button-group button{flex:1;min-width:140px;}
+.button-group a{flex:1;min-width:140px;text-align:center;}
 </style>
 <script>
 const IMGBB_API_KEY = "e6c0d80440654f3e64528310279eea4d";
@@ -99,9 +99,36 @@ function deletePhoto(index) {
     alert("❌ Incorrect password!");
   }
 }
+
+// دالة لتحديث روابط التواصل لحظياً أثناء كتابة البيانات
+function updateLinks() {
+  var name = document.getElementById('name').value || "Guest";
+  var lang = document.getElementById('tourLang').value;
+  var tour = document.getElementById('tour').value;
+  var extra = document.getElementById('extraActivity').value;
+  var date = document.getElementById('date').value || "Not specified";
+  var people = document.getElementById('people').value;
+  var kids = document.getElementById('kids').value;
+
+  var msg = "Hello Magi, I want to book a tour:\n- Name: " + name + "\n- Guide Language: " + lang + "\n- Main Tour: " + tour + "\n- Extra Activities: " + extra + "\n- Date: " + date + "\n- Adults: " + people + "\n- Kids (<6): " + kids;
+
+  // تحديث رابط الواتساب
+  var waBtn = document.getElementById('waBtnLink');
+  if(waBtn) {
+    waBtn.href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg);
+  }
+
+  // تحديث رابط الإيميل
+  var mailBtn = document.getElementById('mailBtnLink');
+  if(mailBtn) {
+    var subject = encodeURIComponent("New Tour Booking - " + name);
+    var body = encodeURIComponent(msg);
+    mailBtn.href = "mailto:" + GMAIL_ADDRESS + "?subject=" + subject + "&body=" + body;
+  }
+}
 </script>
 </head>
-<body onload="loadGallery(); showSection('home');">
+<body onload="loadGallery(); showSection('home'); updateLinks();">
 
 <nav>
   <a onclick="showSection('home')" id="nav-home" class="active">Home</a>
@@ -294,18 +321,18 @@ function deletePhoto(index) {
   <div class="container">
     <div class="card">
       <h1 class="card-title">📅 Online Tour Reservation</h1>
-      <form id="bookingForm" onsubmit="return false;">
+      <div id="bookingForm">
         <label style="font-weight:bold">Full Name:</label>
-        <input type="text" id="name" class="form-control" required>
+        <input type="text" id="name" class="form-control" oninput="updateLinks()" required>
         
         <label style="font-weight:bold">Select Tour Guide Language / Gewünschte Sprache des Reiseleiters:</label>
-        <select id="tourLang" class="form-control">
+        <select id="tourLang" class="form-control" onchange="updateLinks()">
           <option value="Deutsch (German Speaking Guide)">🇩🇪 Deutsch (German Guide)</option>
           <option value="English (English Speaking Guide)">🇬🇧 English (English Guide)</option>
         </select>
 
         <label style="font-weight:bold">Select Main Tour / Haupttour auswählen:</label>
-        <select id="tour" class="form-control">
+        <select id="tour" class="form-control" onchange="updateLinks()">
           <option>East Bank Tour</option>
           <option>West Bank Tour</option>
           <option>Overday Tour (Valley of the Kings, Karnak & Hatshepsut)</option>
@@ -313,34 +340,7 @@ function deletePhoto(index) {
         </select>
 
         <label style="font-weight:bold">Optional Extra Activities / Zusätzliche Aktivitäten:</label>
-        <select id="extraActivity" class="form-control">
+        <select id="extraActivity" class="form-control" onchange="updateLinks()">
           <option value="None">None (No Extra Activities)</option>
           <option value="Nile Felucca Ride">Nile Felucca Ride / Nil-Felucca-Fahrt</option>
-          <option value="Horse Carriage Ride">Horse Carriage Ride / Kutschfahrt</option>
-          <option value="Both (Felucca & Horse Carriage)">Both (Felucca & Horse Carriage) / Beide</option>
-        </select>
-
-        <label style="font-weight:bold">Tour Date:</label>
-        <input type="date" id="date" class="form-control" required>
         
-        <label style="font-weight:bold">Adults:</label>
-        <input type="number" id="people" min="1" value="2" class="form-control" required>
-        
-        <label style="font-weight:bold">Kids Under 6 (Free):</label>
-        <input type="number" id="kids" min="0" value="0" class="form-control" required>
-        
-        <label style="font-weight:bold; margin-top:15px; display:block; text-align:center; color:#78350f;">Choose How to Send Reservation:</label>
-        <div class="button-group">
-          <button type="button" class="btn-wa" onclick="sendWhatsApp()">💬 Send via WhatsApp</button>
-          <button type="button" class="btn-mail" onclick="sendEmail()">📧 Send via Gmail</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<script>
-document.getElementById('addPhotoForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  var pass = document.getElementById('adminPass').value;
-  if(pass !== SECRET_PASS) { alert("Incorrect 
