@@ -46,6 +46,8 @@ header{background:rgba(15, 23, 42, 0.8);color:#fff;padding:30px 15px;text-align:
 <script>
 const IMGBB_API_KEY = "e6c0d80440654f3e64528310279eea4d";
 const SECRET_PASS = "135268";
+const WHATSAPP_NUMBER = "201008487479"; // تم تحديث رقم الواتساب الخاص بك
+const GMAIL_ADDRESS = "magirashed70@gmail.com";
 
 function showSection(secName) {
   var sections = ['home', 'gallery', 'east', 'west', 'overday', 'extra', 'reviews', 'prices', 'booking'];
@@ -354,6 +356,4 @@ document.getElementById('addPhotoForm').addEventListener('submit', function(e) {
       btn.disabled = false;
       btn.innerText = "Upload Now";
       if(data.success) {
-        var savedPhotos = JSON.parse(localStorage.getItem('magi_gallery') || '[]');
-        savedPhotos.unshift({ url: data.data.url, caption: caption });
-        localStorag
+        var savedPhotos = JSON.parse(localStorage.ge
