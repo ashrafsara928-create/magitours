@@ -100,8 +100,8 @@ function deletePhoto(index) {
   }
 }
 
-// دالة لتحديث روابط التواصل لحظياً أثناء كتابة البيانات
-function updateLinks() {
+// دالة تحديث بيانات الحجز في روابط الواتساب والإيميل
+function updateBookingLinks() {
   var name = document.getElementById('name').value || "Guest";
   var lang = document.getElementById('tourLang').value;
   var tour = document.getElementById('tour').value;
@@ -112,23 +112,21 @@ function updateLinks() {
 
   var msg = "Hello Magi, I want to book a tour:\n- Name: " + name + "\n- Guide Language: " + lang + "\n- Main Tour: " + tour + "\n- Extra Activities: " + extra + "\n- Date: " + date + "\n- Adults: " + people + "\n- Kids (<6): " + kids;
 
-  // تحديث رابط الواتساب
-  var waBtn = document.getElementById('waBtnLink');
-  if(waBtn) {
-    waBtn.href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg);
+  var waLink = document.getElementById('waLinkBtn');
+  if(waLink) {
+    waLink.href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg);
   }
 
-  // تحديث رابط الإيميل
-  var mailBtn = document.getElementById('mailBtnLink');
-  if(mailBtn) {
+  var mailLink = document.getElementById('mailLinkBtn');
+  if(mailLink) {
     var subject = encodeURIComponent("New Tour Booking - " + name);
     var body = encodeURIComponent(msg);
-    mailBtn.href = "mailto:" + GMAIL_ADDRESS + "?subject=" + subject + "&body=" + body;
+    mailLink.href = "mailto:" + GMAIL_ADDRESS + "?subject=" + subject + "&body=" + body;
   }
 }
 </script>
 </head>
-<body onload="loadGallery(); showSection('home'); updateLinks();">
+<body onload="loadGallery(); showSection('home'); updateBookingLinks();">
 
 <nav>
   <a onclick="showSection('home')" id="nav-home" class="active">Home</a>
@@ -323,16 +321,16 @@ function updateLinks() {
       <h1 class="card-title">📅 Online Tour Reservation</h1>
       <div id="bookingForm">
         <label style="font-weight:bold">Full Name:</label>
-        <input type="text" id="name" class="form-control" oninput="updateLinks()" required>
+        <input type="text" id="name" class="form-control" oninput="updateBookingLinks()" required>
         
         <label style="font-weight:bold">Select Tour Guide Language / Gewünschte Sprache des Reiseleiters:</label>
-        <select id="tourLang" class="form-control" onchange="updateLinks()">
+        <select id="tourLang" class="form-control" onchange="updateBookingLinks()">
           <option value="Deutsch (German Speaking Guide)">🇩🇪 Deutsch (German Guide)</option>
           <option value="English (English Speaking Guide)">🇬🇧 English (English Guide)</option>
         </select>
 
         <label style="font-weight:bold">Select Main Tour / Haupttour auswählen:</label>
-        <select id="tour" class="form-control" onchange="updateLinks()">
+        <select id="tour" class="form-control" onchange="updateBookingLinks()">
           <option>East Bank Tour</option>
           <option>West Bank Tour</option>
           <option>Overday Tour (Valley of the Kings, Karnak & Hatshepsut)</option>
@@ -340,7 +338,7 @@ function updateLinks() {
         </select>
 
         <label style="font-weight:bold">Optional Extra Activities / Zusätzliche Aktivitäten:</label>
-        <select id="extraActivity" class="form-control" onchange="updateLinks()">
+        <select id="extraActivity" class="form-control" onchange="updateBookingLinks()">
           <option value="None">None (No Extra Activities)</option>
           <option value="Nile Felucca Ride">Nile Felucca Ride / Nil-Felucca-Fahrt</option>
-        
+          <o
